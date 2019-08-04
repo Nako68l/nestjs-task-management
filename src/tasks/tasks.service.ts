@@ -1,3 +1,4 @@
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Injectable } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
 import * as uuid from 'uuid/v1';
@@ -7,15 +8,32 @@ import { CreateTaskDto } from './dto/create-task.dto';
 export class TasksService {
   private tasks: Task[] = [];
 
-  getAllTasks(): Task[] {
+  getAll(): Task[] {
     return this.tasks;
   }
 
-  getTaskById(id: string): Task {
+  getWithFilters({ search, status }: GetTasksFilterDto): Task[] {
+    let tasks = this.getAll();
+
+    if (status) {
+      tasks = tasks.filter(task => task.status === status);
+    }
+
+    if (search) {
+      tasks = tasks.filter(
+        ({ title, description }) =>
+          title.includes(search) || description.includes(search)
+      );
+    }
+
+    return tasks;
+  }
+
+  getById(id: string): Task {
     return this.tasks.find(task => task.id === id);
   }
 
-  createTask({ title, description }: CreateTaskDto): Task {
+  create({ title, description }: CreateTaskDto): Task {
     const task: Task = {
       id: uuid(),
       title,
@@ -27,13 +45,13 @@ export class TasksService {
     return task;
   }
 
-  updateTaskStatus(id: string, status: TaskStatus): Task {
-    const task = this.getTaskById(id);
+  updateStatus(id: string, status: TaskStatus): Task {
+    const task = this.getById(id);
     task.status = status;
     return task;
   }
 
-  deleteTask(id: string): void {
+  delete(id: string): void {
     this.tasks = this.tasks.filter(task => task.id !== id);
   }
 }
