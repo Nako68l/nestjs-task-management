@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { Task } from './task.model';
@@ -41,6 +42,7 @@ export class TasksController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   deleteTask(@Param('id') id): void {
     this.tasksService.delete(id);
   }
