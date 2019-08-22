@@ -10,11 +10,13 @@ import {
   HttpCode,
   ValidationPipe,
   UsePipes,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
+import { Task } from './entities/task.entity';
 
 @Controller('tasks')
 export class TasksController {
@@ -28,10 +30,10 @@ export class TasksController {
   //   return this.tasksService.getAll();
   // }
 
-  // @Get(':id')
-  // getTaskById(@Param('id') id: string): Task {
-  //   return this.tasksService.getById(id);
-  // }
+  @Get(':id')
+  getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
+    return this.tasksService.getById(id);
+  }
 
   // @Post()
   // @UsePipes(ValidationPipe)
