@@ -8,11 +8,10 @@ import { Task } from './entities/task.entity';
 
 @Injectable()
 export class TasksService {
-
   constructor(
     @InjectRepository(TaskRepository)
     private taskRepository: TaskRepository
-  ){}
+  ) {}
   // getAll(): Task[] {
   //   return this.tasks;
   // }
@@ -36,7 +35,7 @@ export class TasksService {
 
   async getById(id: number): Promise<Task> {
     const found = await this.taskRepository.findOne(id);
-    
+
     if (!found) {
       throw new NotFoundException(`No task with ID ${id} was found`);
     }
@@ -44,17 +43,15 @@ export class TasksService {
     return found;
   }
 
-  // create({ title, description }: CreateTaskDto): Task {
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
+  async create({ title, description }: CreateTaskDto): Promise<Task> {
+    const task = new Task();
 
-  //   this.tasks.push(task);
-  //   return task;
-  // }
+    task.title = title;
+    task.description = description;
+    task.status = TaskStatus.OPEN;
+
+    return await task.save();
+  }
 
   // updateStatus(id: string, status: TaskStatus): Task {
   //   const task = this.getById(id);
