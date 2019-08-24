@@ -22,13 +22,10 @@ import { Task } from './entities/task.entity';
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
-  // @Get()
-  // getTasks(@Query(ValidationPipe) filters: GetTasksFilterDto): Task[] {
-  //   if (Object.keys(filters).length) {
-  //     return this.tasksService.getWithFilters(filters);
-  //   }
-  //   return this.tasksService.getAll();
-  // }
+  @Get()
+  getTasks(@Query(ValidationPipe) filters: GetTasksFilterDto): Promise<Task[]> {
+    return this.tasksService.getTasks(filters);
+  }
 
   @Get(':id')
   getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
