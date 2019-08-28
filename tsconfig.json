@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig-paths.json",
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -7,9 +8,9 @@
     "experimentalDecorators": true,
     "target": "es2017",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "noImplicitAny": true,
+    "outDir": "dist",
   },
   "exclude": ["node_modules", "dist"]
 }
