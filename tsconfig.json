@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig-paths.json",
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -11,6 +10,10 @@
     "incremental": true,
     "noImplicitAny": true,
     "outDir": "dist",
+    "baseUrl": "src",
+    "paths": {
+      "@shared/*": ["shared/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
